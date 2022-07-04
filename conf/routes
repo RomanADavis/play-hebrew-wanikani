@@ -4,6 +4,10 @@ GET        /                       controllers.HomeController.index
 GET        /test                   controllers.HomeController.test
 GET        /testA                  controllers.HomeController.testAsync
 
+# users
+GET        /users                  controllers.UserController.show_all()
+GET        /users/:id              controllers.UserController.read(id: Int)
+
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file        controllers.Assets.at(path="/public", file)
 
