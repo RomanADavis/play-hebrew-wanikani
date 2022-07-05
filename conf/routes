@@ -1,15 +1,66 @@
-GET        /                       controllers.HomeController.index
+GET        /                       controllers.UserController.login_page()
++ nocsrf
+POST       /login                  controllers.UserController.login()
 
 # Spark call test
 GET        /test                   controllers.HomeController.test
 GET        /testA                  controllers.HomeController.testAsync
 
 # users
+# users - create
+GET        /signup                 controllers.UserController.get_signup()
+POST       /signup                 controllers.UserController.post_signup()
+# users - read
 GET        /users                  controllers.UserController.show_all()
 GET        /users/:id              controllers.UserController.read(id: Int)
-GET        /signup                 controllers.UserController.get_signup()
-+ nocsrf
-POST       /signup                 controllers.UserController.post_signup()
+# users - update
+#
+#
+# users - delete
+#
+#
+
+# letters
+# letters - create
+#
+#
+# letters - read
+#
+#
+# letters - update
+#
+#
+# letters - delete
+#
+#
+
+# roots
+# roots - create
+#
+#
+# roots - read
+#
+#
+# roots - update
+#
+#
+# roots - delete
+#
+#
+
+# words
+# words - create
+#
+#
+# words - read
+#
+#
+# words -update
+#
+#
+# words - delete
+#
+#
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file        controllers.Assets.at(path="/public", file)

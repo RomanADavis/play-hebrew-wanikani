@@ -35,7 +35,7 @@ object User {
     dataframe.cache()
     dataframe.createOrReplaceTempView("users")
 
-    def show_all(): org.apache.spark.sql.DataFrame = {
+    def all(): org.apache.spark.sql.DataFrame = {
         // SELECT DISTINCT is a hack here: somehow, when I add a row to my table,
         // it gets added twice to the dataframe (but only once as a JSON);
         // should probably hunt down the bug later.
@@ -46,13 +46,19 @@ object User {
         return session.sql(s"SELECT * FROM users where id = $id")
     }
 
-    def save(){
+    // Hopefully this works.
+    def read(name: String): org.apache.spark.sql.DataFrame = {
+        // return session.sql(s"SELECT * FROM users where name = $name")
+        return dataframe.filter(dataframe("name") === name)
+    }
+
+    def save() = {
         dataframe.write.mode("overwrite").json(json_path)
         dataframe.cache()
     }
 
     def create(name: String, password: String, role: String): User = {
-        show_all()
+        all()
         val user = new User(name, password, role)
 
         user.dataframe().show()

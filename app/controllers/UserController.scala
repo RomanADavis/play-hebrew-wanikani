@@ -16,9 +16,10 @@ import models.DB.session
 class UserController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
 
   def show_all() = Action { implicit request =>
-    val dataframe = models.User.show_all()
+    val username: String = request.session.get("username").getOrElse("")
+    val dataframe = models.User.all()
     dataframe.show()
-    Ok(views.html.users(dataframe))
+    Ok(views.html.users(dataframe, username))
   }
 
   def read(id: Int) = Action { implicit request =>
@@ -43,16 +44,43 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(views.html.signup())
   }
 
-//   // A simple example to call Apache Spark
-//   def test = Action { implicit request =>
-//   	val sum = SparkTest.Example
-//     Ok(views.html.test_args(s"A call to Spark, with result: $sum"))
-//   }
+  def login_page(error: String = "") = Action {
+    models.User.all().show()
+    Ok(views.html.login_page(error))
+  }
 
-//   // A non-blocking call to Apache Spark 
-//   def testAsync = Action.async{
-//   	val futureSum = Future{SparkTest.Example}
-//     futureSum.map{ s => Ok(views.html.test_args(s"A non-blocking call to Spark with result: ${s + 1000}"))}
-//   }
+  def login() = Action { request =>
+    val postVals = request.body.asFormUrlEncoded
+    postVals.map { args =>
+      // Get the username and passowrd
+      val username = args("username").head
+      val password = args("password").head
+      // TODO: Figure out how to get roles
+      //val role = args("role").head
+
+      // Check if username is in the users table
+      val user = models.User.read(username)
+      val found : Long = user.count()
+
+      // If not in users table, redirect back to login page with error message:
+      // Incorrect username
+      if(found == 0){
+        Ok(views.html.login_page("User not found"))
+      }
+
+      // Check if password matches password for row in users table
+      val user_password = user.first()getAs[String]("password")
+
+      // If not, redirect back to login page with error message:
+      // Incorrect password
+      if(password != user_password){
+        Ok(views.html.login_page("Incorrect password"))
+      }
+
+      // If password in matches, log the user in, somehow? ???
+      Redirect(routes.UserController.show_all()).withSession("username" -> username)
+
+    }.getOrElse(Ok("Oops"))
+  }
 
 }

@@ -1,4 +1,4 @@
-@(users: org.apache.spark.sql.DataFrame)
+@(users: org.apache.spark.sql.DataFrame, username: String)
 
 <!doctype html>
 <html lang="en">
@@ -14,11 +14,20 @@
     <h1>USERS</h1>
     
     @for(index <- 0 until users.count().toInt){
-      <p> 
-        <a href="users/@users.collect()(index).getAs[Int]("id")">
-          @users.collect()(index).getAs[String]("name") 
-        </a>
-      </p>
+      @if(users.collect()(index).getAs[String]("name") == username){
+        <p> 
+          <a href="users/@users.collect()(index).getAs[Int]("id")">
+            @users.collect()(index).getAs[String]("name") 
+          </a>
+          (Me)
+        </p>
+      }else{
+        <p> 
+          <a href="users/@users.collect()(index).getAs[Int]("id")">
+            @users.collect()(index).getAs[String]("name") 
+          </a>
+        </p>
+      }
     }
   </body>
 </html>

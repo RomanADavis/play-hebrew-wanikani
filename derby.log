@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Tue Jul 05 04:56:41 EDT 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0181-cd93-7319-0000233ca8d0 
-on database directory /mnt/c/code/play-hebrew-wanikani/metastore_db with class loader org.apache.spark.sql.hive.client.IsolatedClientLoader$$anon$1@7892077c 
+Tue Jul 05 08:33:46 EDT 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0181-ce5a-32a9-0000230538b8 
+on database directory /mnt/c/code/play-hebrew-wanikani/metastore_db with class loader org.apache.spark.sql.hive.client.IsolatedClientLoader$$anon$1@48e15696 
 Loaded from file:/home/roman/.ivy2/cache/org.apache.derby/derby/jars/derby-10.10.2.0.jar
 java.vendor=Private Build
 java.runtime.version=1.8.0_312-8u312-b07-0ubuntu1~18.04-b07
