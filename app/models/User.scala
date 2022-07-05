@@ -49,6 +49,8 @@ object User {
     // Hopefully this works.
     def read(name: String): org.apache.spark.sql.DataFrame = {
         // return session.sql(s"SELECT * FROM users where name = $name")
+        // For some reason, using the above spark sql is confusing to spark;
+        // good riddance; I'd rather user programatic syntax anyway.
         return dataframe.filter(dataframe("name") === name)
     }
 
