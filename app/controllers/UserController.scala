@@ -1,35 +1,42 @@
 package controllers
 
 import javax.inject.Inject
-import play.api.mvc._
+
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits._
 
-// Spark
-import spark.SparkTest
+import play.api.mvc._
+import play.api.data._
+import play.api.data.Forms._
+import play.api.mvc.Results._
 
 import models.User
 import models.DB.session
 
 class UserController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
-  val session = models.DB.session
-  val json_path = "hdfs://localhost:9000/user/Roman/hebrew/users.json"
-  val dataframe = session.read.option("multiline", "true").json(json_path)
-  dataframe.createOrReplaceTempView("users")
 
   def show_all() = Action { implicit request =>
-    val dataframe = models.DB.session.sql(s"SELECT * FROM users ORDER BY id")
+    val dataframe = models.User.show_all()
+    dataframe.show()
     Ok(views.html.users(dataframe))
   }
 
   def read(id: Int) = Action { implicit request =>
-    val dataframe = models.DB.session.sql(s"SELECT * FROM users WHERE id = $id")
+    val dataframe = models.User.read(id)
+    dataframe.show()
     val row = dataframe.first()
     Ok(views.html.user_read(row))
   }
 
-  def post_signup() = Action {
-
+  def post_signup() = Action { request =>
+    val postVals = request.body.asFormUrlEncoded
+    postVals.map { args =>
+      val username = args("username").head
+      val password = args("password").head
+      val role = args("role").head
+      models.User.create(username, password, role)
+      Redirect(routes.UserController.show_all())
+    }.getOrElse(Ok("Oops"))
   }
 
   def get_signup() = Action {

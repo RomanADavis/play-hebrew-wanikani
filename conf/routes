@@ -7,6 +7,9 @@ GET        /testA                  controllers.HomeController.testAsync
 # users
 GET        /users                  controllers.UserController.show_all()
 GET        /users/:id              controllers.UserController.read(id: Int)
+GET        /signup                 controllers.UserController.get_signup()
++ nocsrf
+POST       /signup                 controllers.UserController.post_signup()
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file        controllers.Assets.at(path="/public", file)

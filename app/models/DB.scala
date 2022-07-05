@@ -5,6 +5,7 @@ import java.util.Properties
 
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.Row
+import org.apache.spark.SparkConf
 
 // import spark.implicits._
 
@@ -16,10 +17,9 @@ object DB {
         .appName("Hebrew-WaniKani")
         .config("spark.master", "local[*]")
         .enableHiveSupport()
-        .getOrCreate()  
+        .getOrCreate() 
 
     val url = "jdbc:mysql://localhost:3306/hebrew"
     val user = "roman"
     val password = ""
-
 }
