@@ -7,9 +7,6 @@
   @common.message(request.flash, "Showing Users")
   <div id="users">
     @for(index <- 0 until users.size){
-      @if(request.session.get("role").getOrElse("") == "admin"){
-        <form action="/users/delete/@users(index).id" method="POST">
-        }
       <p> 
         <a href="read/@users(index).id">
           @users(index).name 
@@ -18,15 +15,11 @@
           (Me)
         }
         @if(request.session.get("role").getOrElse("") == "admin"){
-            @CSRF.formField
-            <button type="submit" style="display: inline">
+            <a href="/users/delete/@users(index).id">
               @icons.trash()
-            </button>
+            </a>
         }
       </p>
-      @if(request.session.get("role").getOrElse("") == "admin"){
-        </form>
-      }
     }
   </div>
 }

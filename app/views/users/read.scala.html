@@ -1,20 +1,18 @@
-@(user: User)(implicit session: Session, flash: Flash, request: RequestHeader)
+@(user: User)(implicit request: RequestHeader)
 @import helper._
 
-@common.head("User")
-
-  <body>
-    @common.navbar()
+@common.layout(s"User - $$@user.name"){
+    @common.navbar()(request)
     <div id="heading">
       <h1>User - @user.name</h1>
     </div>
-    @if(session.get("role").getOrElse("") == "admin"){
-      @common.message(flash, "Editing User")
+    @if(request.session.get("role").getOrElse("") == "admin"){
+      @common.message(request.flash, "Editing User")
     }else{
-      @common.message(flash, "Showing User")
+      @common.message(request.flash, "Showing User")
     }
     <div id="user">
-      @if(session.get("role").getOrElse("")  == "admin"){
+      @if(request.session.get("role").getOrElse("")  == "admin"){
         <form action="/users/update/@user.id" method="POST">
           <div>
             <label>Username</label>
@@ -54,5 +52,4 @@
       </p>
     </div>
 
-  </body>
-</html>
+}

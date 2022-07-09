@@ -16,7 +16,7 @@ GET        /users/read/:id         controllers.UserController.read(id: Int)
 POST       /users/update/:id       controllers.UserController.update(id: Int)
 # users - delete
 # Happens @/users/all - is it necessary to post?
-POST       /users/delete/:id       controllers.UserController.delete(id: Int)
+GET       /users/delete/:id       controllers.UserController.delete(id: Int)
 
 # letters
 # letters - create
