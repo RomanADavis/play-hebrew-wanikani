@@ -1,30 +1,30 @@
 @import helper._
-@(users: Array[User])(implicit session: Session, flash: Flash, request: RequestHeader)
+@(users: Array[User])(implicit request: RequestHeader)
 
 @common.layout("Users"){
   <h1>USERS</h1>
-  @session.get("role").getOrElse("")
-  @common.message(flash, "Showing Users")
+  @request.session.get("role").getOrElse("")
+  @common.message(request.flash, "Showing Users")
   <div id="users">
     @for(index <- 0 until users.size){
-      @if(session.get("role").getOrElse("") == "admin"){
+      @if(request.session.get("role").getOrElse("") == "admin"){
         <form action="/users/delete/@users(index).id" method="POST">
         }
       <p> 
         <a href="read/@users(index).id">
           @users(index).name 
         </a>
-        @if(users(index).name == session.get("username").getOrElse("")){
+        @if(users(index).name == request.session.get("username").getOrElse("")){
           (Me)
         }
-        @if(session.get("role").getOrElse("") == "admin"){
+        @if(request.session.get("role").getOrElse("") == "admin"){
             @CSRF.formField
             <button type="submit" style="display: inline">
               @icons.trash()
             </button>
         }
       </p>
-      @if(session.get("role").getOrElse("") == "admin"){
+      @if(request.session.get("role").getOrElse("") == "admin"){
         </form>
       }
     }
