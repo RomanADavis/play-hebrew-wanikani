@@ -1,9 +1,9 @@
 @()(implicit flash: Flash, request: RequestHeader)
 @import helper._
 
-@head("Sign Up")
+@common.head("Sign Up")
   <body>
-    @message(flash, "Sign ups open")
+    @common.message(flash, "Sign ups open")
     <form action="/users/create" method="POST">
         <div>
             <label>Username</label>

@@ -1,15 +1,15 @@
 @(user: User)(implicit session: Session, flash: Flash, request: RequestHeader)
 @import helper._
 
-@head("User")
+@common.head("User")
   <body>
     <div id="heading">
       <h1></h1>
     </div>
     @if(session.get("role").getOrElse("") == "admin"){
-      @message(flash, "Editing User")
+      @common.message(flash, "Editing User")
     }else{
-      @message(flash, "Showing User")
+      @common.message(flash, "Showing User")
     }
     <div id="user">
       @if(session.get("role").getOrElse("")  == "admin"){

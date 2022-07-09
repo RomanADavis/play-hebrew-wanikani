@@ -1,10 +1,10 @@
 @()(implicit session: Session, flash: Flash, request: RequestHeader)
 @import helper._
 
-@head("Login Page")
+@common.head("Login Page")
 
   <body>
-    @message(flash, "Login Page Loaded")
+    @common.message(flash, "Login Page Loaded")
     <p>
         Not registered? <a href="users/signup">Sign up!</a>
     </p>

@@ -1,11 +1,11 @@
 @(users: Array[User])(implicit session: Session, flash: Flash, request: RequestHeader)
 @import helper._
 
-@head("Users")
+@common.head("Users")
   <body>
     <h1>USERS</h1>
     @session.get("role").getOrElse("")
-    @message(flash, "Showing Users")
+    @common.message(flash, "Showing Users")
     <div id="users">
       @for(index <- 0 until users.size){
         @if(session.get("role").getOrElse("") == "admin"){
@@ -20,8 +20,8 @@
           }
           @if(session.get("role").getOrElse("") == "admin"){
               @CSRF.formField
-              <button type="submit" style="disply: inline">
-                @trash()
+              <button type="submit" style="display: inline">
+                @icons.trash()
               </button>
           }
         </p>
