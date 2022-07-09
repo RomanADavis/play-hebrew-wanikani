@@ -1,24 +1,20 @@
 GET        /                       controllers.UserController.login_page()
-+ nocsrf
+# + nocsrf
 POST       /login                  controllers.UserController.login()
-
-# Spark call test
-GET        /test                   controllers.HomeController.test
-GET        /testA                  controllers.HomeController.testAsync
 
 # users
 # users - create
-GET        /signup                 controllers.UserController.get_signup()
-POST       /signup                 controllers.UserController.post_signup()
+GET        /users/signup           controllers.UserController.get_signup()
+POST       /users/create           controllers.UserController.post_signup()
 # users - read
-GET        /users                  controllers.UserController.show_all()
-GET        /users/:id              controllers.UserController.read(id: Int)
+GET        /users/all              controllers.UserController.show_all()
+GET        /users/read/:id         controllers.UserController.read(id: Int)
 # users - update
 #
-#
+POST       /users/update/:id       controllers.UserController.update(id: Int)
 # users - delete
 #
-#
+POST       /users/delete/:id       controllers.UserController.delete(id: Int)
 
 # letters
 # letters - create

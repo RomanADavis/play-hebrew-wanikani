@@ -1,15 +1,10 @@
-@()
-<!doctype html>
+@()(implicit flash: Flash, request: RequestHeader)
+@import helper._
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Play REST API</title>
-  </head>
-
+@head("Sign Up")
   <body>
-    <form action="/signup" method="POST">
-        <h1>Signup</h1>
+    @message(flash, "Sign ups open")
+    <form action="/users/create" method="POST">
         <div>
             <label>Username</label>
             <input name="username" id="username" value="Username">
@@ -33,9 +28,8 @@
         </div>
         
         <div>
-            <button>
-                Sign Up
-            </button>
+            @CSRF.formField
+            <input type="submit" value="Sign Up" />
         </div>
     </form>
   </body>

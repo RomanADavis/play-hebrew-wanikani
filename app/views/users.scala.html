@@ -1,33 +1,34 @@
-@(users: org.apache.spark.sql.DataFrame, username: String)
+@(users: Array[User])(implicit session: Session, flash: Flash, request: RequestHeader)
+@import helper._
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-
-    <title>Learn Hebrew - USER</title>
-  </head>
-
+@head("Users")
   <body>
     <h1>USERS</h1>
-    
-    @for(index <- 0 until users.count().toInt){
-      @if(users.collect()(index).getAs[String]("name") == username){
+    @session.get("role").getOrElse("")
+    @message(flash, "Showing Users")
+    <div id="users">
+      @for(index <- 0 until users.size){
+        @if(session.get("role").getOrElse("") == "admin"){
+          <form action="/users/delete/@users(index).id" method="POST">
+          }
         <p> 
-          <a href="users/@users.collect()(index).getAs[Int]("id")">
-            @users.collect()(index).getAs[String]("name") 
+          <a href="read/@users(index).id">
+            @users(index).name 
           </a>
-          (Me)
+          @if(users(index).name == session.get("username").getOrElse("")){
+            (Me)
+          }
+          @if(session.get("role").getOrElse("") == "admin"){
+              @CSRF.formField
+              <button type="submit" style="disply: inline">
+                @trash()
+              </button>
+          }
         </p>
-      }else{
-        <p> 
-          <a href="users/@users.collect()(index).getAs[Int]("id")">
-            @users.collect()(index).getAs[String]("name") 
-          </a>
-        </p>
+        @if(session.get("role").getOrElse("") == "admin"){
+          </form>
+        }
       }
-    }
+    </div>
   </body>
 </html>

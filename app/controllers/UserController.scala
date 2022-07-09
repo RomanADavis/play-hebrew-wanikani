@@ -14,21 +14,26 @@ import models.User
 import models.DB.session
 
 class UserController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
-
   def show_all() = Action { implicit request =>
     val username: String = request.session.get("username").getOrElse("")
-    val dataframe = models.User.all()
-    dataframe.show()
-    Ok(views.html.users(dataframe, username))
+
+    if(username == ""){
+        Redirect(routes.UserController.login_page()).flashing(
+            "message" -> "Login to see users."
+            )
+    }
+    val role: String = User.read(username).role
+    val users = models.User.all()
+
+    Ok(views.html.users(users))
+  }
+  
+  // CREATE
+  def get_signup() = Action { implicit request =>
+    Ok(views.html.signup()).flashing("message" -> "Sign Ups Open")
   }
 
-  def read(id: Int) = Action { implicit request =>
-    val dataframe = models.User.read(id)
-    dataframe.show()
-    val row = dataframe.first()
-    Ok(views.html.user_read(row))
-  }
-
+  // CREATE
   def post_signup() = Action { request =>
     val postVals = request.body.asFormUrlEncoded
     postVals.map { args =>
@@ -36,20 +41,67 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
       val password = args("password").head
       val role = args("role").head
       models.User.create(username, password, role)
-      Redirect(routes.UserController.show_all())
+      Redirect(routes.UserController.show_all()).flashing(
+        "message" -> "Sign Up Successful")
     }.getOrElse(Ok("Oops"))
   }
 
-  def get_signup() = Action {
-    Ok(views.html.signup())
+  // READ
+  def read(id: Int) = Action { implicit request =>
+    val user: models.User = models.User.read(id)
+    
+    Ok(views.html.user_read(user))
   }
 
-  def login_page(error: String = "") = Action {
-    models.User.all().show()
-    Ok(views.html.login_page(error))
+  // UPDATE
+  def update(id: Int) = Action { implicit request =>
+    val postVals = request.body.asFormUrlEncoded
+    
+    postVals.map { args =>
+      val username = args("username").head
+      val password = args("password").head
+      val role = args("role").head
+      models.User.update(id, username, password, role)
+      Redirect(routes.UserController.read(id)).flashing(
+        "message" -> "Update successful"
+      )
+    }.getOrElse(
+      Redirect(routes.UserController.read(id)).flashing(
+        "message" -> "Update failed")
+    )
   }
 
-  def login() = Action { request =>
+  def delete(id: Int) = Action { implicit request =>
+    val username: String = request.session.get("username").getOrElse("")
+    if(username == ""){
+        // I should actually return some sort of Bad Request or whatever.
+        Redirect(routes.UserController.login_page()).flashing(
+            "message" -> "Can't delete when not logged in."
+        )
+    }
+
+    val role: String = request.session.get("role").getOrElse("")
+    if(role != "admin"){
+        Redirect(routes.UserController.login_page()).flashing(
+            "message" -> "Can't delete users if not admin."
+        )
+    }
+
+    models.User.delete(id)
+    Redirect(routes.UserController.show_all()).flashing(
+        "message" -> s"Sucessfully deleted user with id $id"
+    )
+    // }.getOrElse(Redirect(routes.UserController.show_all()).flashing(
+    //     "message" -> s"Could not delete user with id $id")
+    //     )
+  }
+
+  def login_page() = Action { implicit request =>
+    models.User.show()
+    Ok(views.html.login_page())
+  }
+
+  def login() = Action { implicit request =>
     val postVals = request.body.asFormUrlEncoded
     postVals.map { args =>
       // Get the username and passowrd
@@ -59,28 +111,32 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
       //val role = args("role").head
 
       // Check if username is in the users table
-      val user = models.User.read(username)
-      val found : Long = user.count()
+      val user: User = models.User.read(username)
 
       // If not in users table, redirect back to login page with error message:
       // Incorrect username
-      if(found == 0){
-        Ok(views.html.login_page("User not found"))
+      if(user.notfound()){
+        Ok(views.html.login_page()).flashing(
+            "message" -> "User not found")
       }
 
       // Check if password matches password for row in users table
-      val user_password = user.first()getAs[String]("password")
-
       // If not, redirect back to login page with error message:
       // Incorrect password
-      if(password != user_password){
-        Ok(views.html.login_page("Incorrect password"))
+      if(password != user.password){
+        Ok(views.html.login_page()).flashing(
+            "message" -> "Incorrect password")
       }
 
       // If password in matches, log the user in, somehow? ???
-      Redirect(routes.UserController.show_all()).withSession("username" -> username)
+      Redirect(routes.UserController.show_all()).withSession(
+        "username" -> username, "role" -> user.role
+        ).flashing("message" -> "Login successful.")
 
-    }.getOrElse(Ok("Oops"))
+    }.getOrElse(
+        Redirect(routes.UserController.login_page()).flashing(
+            "message" -> "User and password not found in header.")
+    )
   }
 
 }

@@ -1,22 +1,56 @@
-@(user: org.apache.spark.sql.Row)
+@(user: User)(implicit session: Session, flash: Flash, request: RequestHeader)
+@import helper._
 
-<!doctype html>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Learn Hebrew - USER</title>
-  </head>
-
+@head("User")
   <body>
-    <h1>Play REST API</h1>
-    <!-- <p><b>Id:</b> @user </p> -->
-    <p><b>ID:</b> @user.getAs[Int]("id") </p>
-    <p><b>Username:</b> @user.getAs[String]("name") </p>
-    <p><b>Password:</b> @user.getAs[String]("password") </p>
-    <p><b>Role:</b> @user.getAs[String]("role") </p>
+    <div id="heading">
+      <h1></h1>
+    </div>
+    @if(session.get("role").getOrElse("") == "admin"){
+      @message(flash, "Editing User")
+    }else{
+      @message(flash, "Showing User")
+    }
+    <div id="user">
+      @if(session.get("role").getOrElse("")  == "admin"){
+        <form action="/users/update/@user.id" method="POST">
+          <div>
+            <label>Username</label>
+            <input name="username" id="username" value="@user.name">
+          </div>
+
+          <div>
+            <label>Password</label>
+            <input name="password" id="password" value="@user.password">
+          </div>
+
+          <div>
+            <label>Role</label>
+            <select id="role" name="role" value="@user.role">
+              <option value="registered">
+                  Registered
+              </option>
+              <option value="admin">
+                  Admin
+              </option>
+            </select>
+          </div>
+
+          <div>
+              @CSRF.formField
+              <input type="submit" value="Edit User" />
+          </div>
+        </form>
+      }else{
+        <p><b>ID:</b> @user.id </p>
+        <p><b>Username:</b> @user.name </p>
+        <p><b>Password:</b> @user.password </p>
+        <p><b>Role:</b> @user.role</p>
+      }
+      <p>
+        <a href="/users/all">Back to Users</a>
+      </p>
+    </div>
 
   </body>
 </html>
