@@ -1,11 +1,8 @@
-@()(implicit flash: Flash, request: RequestHeader, session: Session)
+@()(implicit request: RequestHeader)
 @import helper._
 
-@common.head("Sign Up")
-
-  <body>
-    @common.navbar()
-    @common.message(flash, "Sign ups open")
+@common.layout("Sign Up"){
+    @common.message(request.flash, "Sign ups open")
     <form action="/users/create" method="POST">
         <div>
             <label>Username</label>
@@ -34,5 +31,4 @@
             <input type="submit" value="Sign Up" />
         </div>
     </form>
-  </body>
-</html>
+}

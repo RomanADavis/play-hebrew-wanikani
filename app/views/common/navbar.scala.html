@@ -7,7 +7,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          @if(request.session.get("usename").getOrElse("") == ""){
+          @if(request.session.get("username").getOrElse("") == ""){
             <a class="nav-link @if(request.uri == "/"){ active }" aria-current="page" href="/">Login</a>
             <a class="nav-link @if(request.uri == "/signup"){ active }" aria-current="page" href="/signup">Sign Up</a>
           }else{
@@ -18,6 +18,8 @@
           <a class="nav-link disabled" href="/letters/all">Letters</a>
           <a class="nav-link disabled" href="/words/all">Words</a>
           <a class="nav-link disabled" href="/roots/all">Roots</a>
+          <a class="nav-link disabled">@request.uri</a>
+          <a class="nav-link disabled">@request.session.get("username").getOrElse("")</a>
         </div>
       </div>
     </div>
