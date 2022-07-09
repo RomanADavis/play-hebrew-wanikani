@@ -1,8 +1,7 @@
 @(user: User)(implicit request: RequestHeader)
 @import helper._
 
-@common.layout(s"User - $$@user.name"){
-    @common.navbar()(request)
+@common.layout(s"User - $user.name"){
     <div id="heading">
       <h1>User - @user.name</h1>
     </div>
