@@ -1,8 +1,10 @@
-GET        /                       controllers.UserController.home()
+# Assets
+GET        /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
 # Authentication
+GET        /                       controllers.UserController.home()
 POST       /login                  controllers.UserController.login()
-# Need to add logout
-# users
+GET        /logout                 controllers.UserController.logout()
+### USERS ###
 # users - create
 GET        /users/signup           controllers.UserController.signup()
 POST       /users/create           controllers.UserController.create()
@@ -13,7 +15,7 @@ GET        /users/read/:id         controllers.UserController.read(id: Int)
 # Happens @/users/read/:id
 POST       /users/update/:id       controllers.UserController.update(id: Int)
 # users - delete
-# Happens @/users/all
+# Happens @/users/all - is it necessary to post?
 POST       /users/delete/:id       controllers.UserController.delete(id: Int)
 
 # letters

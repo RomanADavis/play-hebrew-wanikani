@@ -140,4 +140,9 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
     )
   }
 
+  def logout() = Action { implicit request =>
+    Redirect(routes.UserController.home()).withNewSession.flashing(
+      "message" -> "Logged out")
+  }
+
 }

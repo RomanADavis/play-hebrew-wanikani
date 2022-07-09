@@ -2,9 +2,11 @@
 @import helper._
 
 @common.head("User")
+
   <body>
+    @common.navbar()
     <div id="heading">
-      <h1></h1>
+      <h1>User - @user.name</h1>
     </div>
     @if(session.get("role").getOrElse("") == "admin"){
       @common.message(flash, "Editing User")
