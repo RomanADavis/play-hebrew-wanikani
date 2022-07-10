@@ -1,0 +1,61 @@
+@(letter: Letter)(implicit request: RequestHeader)
+@import helper._
+
+@common.layout("Letter - " + letter.string){
+    @common.message(request.flash, "Showing Letter - " + letter.string)
+    <div id="letter">
+        <div class="row letter">
+          <div class="col-3">
+            Letter
+          </div>
+          <div class="col-9">
+            @letter.string
+          </div>
+        </div>
+        <div class="row glyph">
+          <div class="col-3">
+            Glyph
+          </div>
+          <div class="col-9">
+            @letter.glyph
+          </div>
+        </div>
+        <div class="row name">
+          <div class="col-3">
+            Name
+          </div>
+          <div class="col-9">
+            @letter.name
+          </div>
+        </div>
+        <div class="row meaning">
+          <div class="col-3">
+            Meaning
+          </div>
+          <div class="col-9">
+            @letter.meaning
+          </div>
+        </div>
+        <div class="row rationale">
+            <div class="col-3">
+              Rationale
+            </div>
+            <div class="col-9">
+              @letter.rationale
+            </div>
+        </div>
+        <div class="row children">
+            <div class="row-6">
+                <a href="/roots/view?letter=@letter.name">
+                    Roots
+                </a>
+            </div>
+            <div class="row-6">
+                <a href="/words/view?letter=@letter.name">
+                    Words
+                </a>
+            </div>
+        </div>
+    </div>
+
+}

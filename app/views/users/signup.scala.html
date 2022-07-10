@@ -4,26 +4,38 @@
 @common.layout("Sign Up"){
     @common.message(request.flash, "Sign ups open")
     <form action="/users/create" method="POST">
-        <div>
-            <label>Username</label>
-            <input name="username" id="username" value="Username">
+        <div class="row">
+            <div class="col-3">
+                <label>Username</label>
+            </div>
+            <div class="col-9">
+                <input name="username" id="username" value="Username">
+            </div>
         </div>
 
-        <div>
-            <label>Password</label>
-            <input name="password" id="password" value="password">
+        <div class="row">
+            <div class="col-3">
+                <label>Password</label>
+            </div>
+            <div class="col-9">
+                <input name="password" id="password" value="password">
+            </div>
         </div>
 
-        <div>
-            <label>Role</label>
-            <select id="role" name="role">
-                <option value="registered">
-                    Registered
-                </option>
-                <option value="admin">
-                    Admin
-                </option>
-            </select>
+        <div class="row">
+            <div class="col-3">
+                <label>Role</label>
+            </div>
+            <div class="col-9">
+                <select id="role" name="role">
+                    <option value="registered">
+                        Registered
+                    </option>
+                    <option value="admin">
+                        Admin
+                    </option>
+                </select>
+            </div>
         </div>
         
         <div>

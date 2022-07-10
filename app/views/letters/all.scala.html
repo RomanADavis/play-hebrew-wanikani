@@ -1,0 +1,33 @@
+@import helper._
+@(letters: Array[Letter])(implicit request: RequestHeader)
+
+@common.layout("Letters"){
+  @common.message(request.flash, "Showing Letter")
+  <div id="letter">
+    @for(index <- 0 until letters.size){
+      <div class="row">
+        <div class="col-4 letter-name">
+          <a href="/letters/read/@letters(index).name">
+            @letters(index).name
+          </a>
+        </div>
+        <div class="col-1 letter-string">
+          @letters(index).string
+        </div>
+        <div class="col-1 letter-glyph">
+          @letters(index).glyph
+        </div>
+        <div class="col-3 letter-roots">
+          <a href="/roots/view/?letter=@letters(index).name">
+            roots
+          </a>
+        </div>
+        <div class="col-3 letter-words">
+          <a href="words/view/?letter=@letters(index).name">
+            words
+          </a>
+        </div>
+      </div>
+    }
+  </div>
+}

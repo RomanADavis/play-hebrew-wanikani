@@ -18,13 +18,13 @@ POST       /users/update/:id       controllers.UserController.update(id: Int)
 # Happens @/users/all - is it necessary to post?
 GET       /users/delete/:id       controllers.UserController.delete(id: Int)
 
-# letters
+### LETTERS ###
 # letters - create
 #
 #
 # letters - read
-#
-#
+GET        /letters/all           controllers.LetterController.all()
+GET        /letters/read/:name    controllers.LetterController.read(name: String)
 # letters - update
 #
 #

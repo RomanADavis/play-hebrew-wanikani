@@ -15,11 +15,12 @@
             <a class="nav-link @if(request.uri == "/users/all"){ active }" href="/users/all">Users</a>
           }
           
-          <a class="nav-link disabled" href="/letters/all">Letters</a>
+          <a class="nav-link" href="/letters/all">Letters</a>
           <a class="nav-link disabled" href="/words/all">Words</a>
           <a class="nav-link disabled" href="/roots/all">Roots</a>
           <a class="nav-link disabled">@request.uri</a>
           <a class="nav-link disabled">@request.session.get("username").getOrElse("")</a>
+          <a class="nav-link disabled">@request.session.get("role").getOrElse("")</a>
         </div>
       </div>
     </div>

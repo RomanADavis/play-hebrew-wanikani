@@ -2,24 +2,31 @@
 @(users: Array[User])(implicit request: RequestHeader)
 
 @common.layout("Users"){
-  <h1>USERS</h1>
-  @request.session.get("role").getOrElse("")
   @common.message(request.flash, "Showing Users")
   <div id="users">
     @for(index <- 0 until users.size){
-      <p> 
-        <a href="read/@users(index).id">
-          @users(index).name 
-        </a>
-        @if(users(index).name == request.session.get("username").getOrElse("")){
-          (Me)
-        }
+      <div class="row">
+        <div class="col-2">
+          <a href="read/@users(index).id">
+            @users(index).id
+          </a>
+        </div>
+        <div class="col-7">
+          <a href="read/@users(index).id">
+            @users(index).name 
+          </a>
+          @if(users(index).name == request.session.get("username").getOrElse("")){
+            (Me)
+          }
+        </div>
         @if(request.session.get("role").getOrElse("") == "admin"){
+          <div class="col-3">
             <a href="/users/delete/@users(index).id">
               @icons.trash()
             </a>
+          </div>
         }
-      </p>
+      </div>
     }
   </div>
 }

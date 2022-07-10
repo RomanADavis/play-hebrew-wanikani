@@ -22,23 +22,44 @@ object Letter {
         )
     )
 
-    var dataframe = session.read.schema(schema).json(json_path)
+    var dataframe = session.read
+        .option("multiline", true)
+        .schema(schema)
+        .json(json_path)
+        
     dataframe.cache()
     dataframe.createOrReplaceTempView("letters")
 
-    def all(): org.apache.spark.sql.DataFrame = {
+    // Hack so that methods return User even when not found.
+    val empty: Letter = new Letter("NULL", "NULL", "NULL", "NULL", "NULL")
+
+     def show() = {
         // SELECT DISTINCT is a hack here: somehow, when I add a row to my table,
         // it gets added twice to the dataframe (but only once as a JSON);
         // should probably hunt down the bug later.
-        return session.sql("SELECT DISTINCT * FROM letters ORDER BY id")
+        dataframe = session.sql("SELECT DISTINCT * FROM letters ORDER BY letter")
+        dataframe.show()
+    }
+
+    def all(): Array[Letter] = {
+        show()
+
+        return dataframe.rdd.map(row =>
+            new Letter(row)
+        ).collect()
     }
 
     // Hopefully this works.
-    def read(name: String): org.apache.spark.sql.DataFrame = {
+    def read(name: String): Letter = {
         // return session.sql(s"SELECT * FROM users where name = $name")
         // For some reason, using the above spark sql is confusing to spark;
         // good riddance; I'd rather user programatic syntax anyway.
-        return dataframe.filter(dataframe("name") === name)
+        val dataread = dataframe.filter(dataframe("name") === name)
+        if(dataread.count() > 0){
+            return new Letter(dataread.first())
+        }else{
+            return Letter.empty
+        }
     }
 
     def save() = {
@@ -60,6 +81,16 @@ object Letter {
 }
 
 case class Letter(string: String, glyph: String, name: String, meaning: String, rationale: String){
+    def this(row: org.apache.spark.sql.Row) = {
+        this(
+            row.getAs[String]("letter"),
+            row.getAs[String]("glyph"),
+            row.getAs[String]("name"),
+            row.getAs[String]("meaning"),
+            row.getAs[String]("rationale")
+        )
+    }
+
     def dataframe(): org.apache.spark.sql.DataFrame = {
         return DB.session.createDataFrame(
             Seq((string, glyph, name, meaning, rationale)))

@@ -1,10 +1,7 @@
 @(user: User)(implicit request: RequestHeader)
 @import helper._
 
-@common.layout(s"User - $user.name"){
-    <div id="heading">
-      <h1>User - @user.name</h1>
-    </div>
+@common.layout("User - " + user.name){
     @if(request.session.get("role").getOrElse("") == "admin"){
       @common.message(request.flash, "Editing User")
     }else{
@@ -13,26 +10,38 @@
     <div id="user">
       @if(request.session.get("role").getOrElse("")  == "admin"){
         <form action="/users/update/@user.id" method="POST">
-          <div>
-            <label>Username</label>
-            <input name="username" id="username" value="@user.name">
+          <div class="row">
+            <div class="col-3">
+              <label>Username</label>
+            </div>
+            <div class="col-9">
+              <input name="username" id="username" value="@user.name">
+            </div>
           </div>
 
-          <div>
-            <label>Password</label>
-            <input name="password" id="password" value="@user.password">
+          <div class="row">
+            <div class="col-3">
+              <label>Password</label>
+            </div>
+            <div class="col-9">
+              <input name="password" id="password" value="@user.password">
+            </div>
           </div>
 
-          <div>
-            <label>Role</label>
-            <select id="role" name="role" value="@user.role">
-              <option value="registered">
-                  Registered
-              </option>
-              <option value="admin">
-                  Admin
-              </option>
-            </select>
+          <div class="row">
+            <div class="col-3">
+              <label>Role</label>
+            </div>
+            <div class="col-9">
+              <select id="role" name="role" value="@user.role">
+                <option value="registered">
+                    Registered
+                </option>
+                <option value="admin">
+                    Admin
+                </option>
+              </select>
+            </div>
           </div>
 
           <div>
@@ -41,14 +50,39 @@
           </div>
         </form>
       }else{
-        <p><b>ID:</b> @user.id </p>
-        <p><b>Username:</b> @user.name </p>
-        <p><b>Password:</b> @user.password </p>
-        <p><b>Role:</b> @user.role</p>
+        <div class="row id">
+          <div class="col-3">
+            ID
+          </div>
+          <div class="col-9">
+            @user.id
+          </div>
+        </div>
+        <div class="row username">
+          <div class="col-3">
+            username
+          </div>
+          <div class="col-9">
+            @user.name
+          </div>
+        </div>
+        <div class="row password">
+          <div class="col-3">
+            password
+          </div>
+          <div class="col-9">
+            @user.password
+          </div>
+        </div>
+        <div class="row role">
+          <div class="col-3">
+            role
+          </div>
+          <div class="col-9">
+            @user.role
+          </diq
+        </div>
       }
-      <p>
-        <a href="/users/all">Back to Users</a>
-      </p>
     </div>
 
 }
