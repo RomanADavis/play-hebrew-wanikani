@@ -56,7 +56,7 @@ object Letter {
         // return session.sql(s"SELECT * FROM users where name = $name")
         // For some reason, using the above spark sql is confusing to spark;
         // good riddance; I'd rather user programatic syntax anyway.
-        val dataread = dataframe.filter(dataframe("string") === string)
+        val dataread = dataframe.filter(dataframe("letter") === string)
 
         if(dataread.count() > 0){
             return new Letter(dataread.first())

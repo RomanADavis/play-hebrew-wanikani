@@ -16,6 +16,7 @@ object DB {
         .builder
         .appName("Hebrew-WaniKani")
         .config("spark.master", "local[*]")
+        .config("spark.sql.crossJoin.enabled" , "true" )
         .enableHiveSupport()
         .getOrCreate() 
 

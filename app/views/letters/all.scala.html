@@ -40,13 +40,13 @@
           @letters(index).glyph
         </div>
         <div class="col-3 letter-roots">
-          <a href="/roots/view/?letter=@letters(index).string">
-            roots
+          <a href="/roots/view/@letters(index).string">
+            Roots
           </a>
         </div>
         <div class="col-3 letter-words">
-          <a href="words/view/?letter=@letters(index).string">
-            words
+          <a href="/roots/root_counts/@letters(index).string" class="disabled">
+            Root Counts
           </a>
         </div>
       </div>

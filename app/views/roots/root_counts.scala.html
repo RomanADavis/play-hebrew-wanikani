@@ -1,0 +1,29 @@
+@import helper._
+@(root_counts: org.apache.spark.sql.DataFrame)(implicit request: RequestHeader)
+
+
+@common.layout("Root Counts"){
+  @common.message(request.flash, "Showing Letter")
+  <div id="letter">
+    <div class="row letter-header">
+      <div class="col-2 col-header">
+        Parent
+      </div>
+      <div class="col-2 col-header">
+        Count
+      </div>
+    </div>
+    @for(index <- 0 until root_counts.count().toInt){
+      <div class="row">
+        <div class="col-2 root-name">
+          <a href="/roots/read/@root_counts.collect()(index).getAs[String]("parent")">
+            @root_counts.collect()(index).getAs[String]("parent")
+          </a>
+        </div>
+        <div class="col-2 letter-words">
+          @root_counts.collect()(index).getAs[Long]("child root count")
+        </div>
+      </div>
+    }
+  </div>
+}
