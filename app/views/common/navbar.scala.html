@@ -9,7 +9,7 @@
         <div class="navbar-nav">
           @if(request.session.get("username").getOrElse("") == ""){
             <a class="nav-link @if(request.uri == "/"){ active }" aria-current="page" href="/">Login</a>
-            <a class="nav-link @if(request.uri == "/users/signup"){ active }" aria-current="page" href="/signup">Sign Up</a>
+            <a class="nav-link @if(request.uri == "/users/signup"){ active }" aria-current="page" href="users/signup">Sign Up</a>
           }else{
             <a class="nav-link" aria-current="page" href="/logout">Logout</a>
             <a class="nav-link @if(request.uri == "/users/all"){ active }" href="/users/all">Users</a>
@@ -18,7 +18,7 @@
           <a class="nav-link" href="/letters/all">Letters</a>
           <a class="nav-link disabled" href="/words/all">Words</a>
           <a class="nav-link" href="/roots/view/א"">Roots</a>
-          <a class="nav-link" href="/roots/root_counts">Root Counts</a>
+          <a class="nav-link" href="/roots/root_counts/א">Root Counts</a>
           <a class="nav-link disabled">@request.uri</a>
           <a class="nav-link disabled">@request.session.get("username").getOrElse("")</a>
           <a class="nav-link disabled">@request.session.get("role").getOrElse("")</a>
