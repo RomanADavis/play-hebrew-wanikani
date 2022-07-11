@@ -17,10 +17,11 @@
           
           <a class="nav-link" href="/letters/all">Letters</a>
           <a class="nav-link disabled" href="/words/all">Words</a>
-          <a class="nav-link disabled" href="/roots/all">Roots</a>
+          <a class="nav-link" href="/roots/view/א"">Roots</a>
           <a class="nav-link disabled">@request.uri</a>
           <a class="nav-link disabled">@request.session.get("username").getOrElse("")</a>
           <a class="nav-link disabled">@request.session.get("role").getOrElse("")</a>
+          <a class="nav-link disabled">@request.getQueryString("order")</a>
         </div>
       </div>
     </div>

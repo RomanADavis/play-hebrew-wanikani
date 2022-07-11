@@ -22,8 +22,10 @@ class LetterController @Inject()(cc: ControllerComponents) extends AbstractContr
             "message" -> "Login to see users."
             )
     }
-    val role: String = User.read(username).role
-    val letters = models.Letter.all()
+
+    val column: String = request.getQueryString("column").getOrElse("letter")
+    val order: String = request.getQueryString("order").getOrElse("ASC")
+    val letters = models.Letter.all(column, order)
 
     Ok(views.html.letters.all(letters))
   }

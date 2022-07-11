@@ -37,8 +37,8 @@ GET        /letters/read/:name    controllers.LetterController.read(name: String
 #
 #
 # roots - read
-#
-#
+GET        /roots/read/:root      controllers.RootController.read(root: String)
+GET        /roots/view/:letter    controllers.RootController.view(letter: String)
 # roots - update
 #
 #

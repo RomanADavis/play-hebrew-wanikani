@@ -4,6 +4,7 @@ import org.apache.spark.sql.Row
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.types.{StringType, StructField, StructType, LongType}
 
+import org.apache.spark.sql.functions.{desc, asc}
 import DB.session
 
 // There is likely some way to remove some of the code overhead if Scala has
@@ -26,7 +27,7 @@ object Letter {
         .option("multiline", true)
         .schema(schema)
         .json(json_path)
-        
+
     dataframe.cache()
     dataframe.createOrReplaceTempView("letters")
 
@@ -41,20 +42,22 @@ object Letter {
         dataframe.show()
     }
 
-    def all(): Array[Letter] = {
-        show()
+    def all(column: String = "letter", order: String = "ASC"): Array[Letter] = {
+        val sorted = if(order == "ASC") dataframe.sort(asc(column)) else dataframe.sort(desc(column))
+        sorted.show()
 
-        return dataframe.rdd.map(row =>
+        return sorted.rdd.map(row =>
             new Letter(row)
         ).collect()
     }
 
     // Hopefully this works.
-    def read(name: String): Letter = {
+    def read(string: String): Letter = {
         // return session.sql(s"SELECT * FROM users where name = $name")
         // For some reason, using the above spark sql is confusing to spark;
         // good riddance; I'd rather user programatic syntax anyway.
-        val dataread = dataframe.filter(dataframe("name") === name)
+        val dataread = dataframe.filter(dataframe("string") === string)
+
         if(dataread.count() > 0){
             return new Letter(dataread.first())
         }else{

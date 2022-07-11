@@ -1,23 +1,20 @@
 @import helper._
-@(letters: Array[Letter])(implicit request: RequestHeader)
+@(letter: String, roots: Array[Root])(implicit request: RequestHeader)
 
 
-@common.layout("Letters"){
+@common.layout("Roots - " + letter){
   @common.message(request.flash, "Showing Letter")
   <div id="letter">
     <div class="row letter-header">
       <div class="col-2 col-header">
-        Name
-      </div>
-      <div class="col-2 col-header">
         @if(request.getQueryString("order").getOrElse("ASC") == "ASC"){
-          <a href="/letters/all?col=letter&order=DSC">Letter</a>
+          <a href="/roots/view/@letter?col=letter&order=DSC">Root</a>
         } else{
-          <a href="/letters/all?col=letter&order=ASC">Letter</a>
+          <a href="/roots/view/@letter?col=letter&order=ASC">Root</a>
         }
       </div>
       <div class="col-2 col-header">
-        Glyph
+        Parent
       </div>
       <div class="col-3 col-header">
         Roots
@@ -26,26 +23,23 @@
         Words
       </div>
     </div>
-    @for(index <- 0 until letters.size){
+    @for(index <- 0 until roots.size){
       <div class="row">
-        <div class="col-2 letter-name">
-          <a href="/letters/read/@letters(index).string">
-            @letters(index).name
+        <div class="col-2 root-name">
+          <a href="/roots/read/@roots(index).root_name">
+            @roots(index).root_name
           </a>
         </div>
         <div class="col-2 letter-string">
-          @letters(index).string
-        </div>
-        <div class="col-2 letter-glyph">
-          @letters(index).glyph
+          @roots(index).parent
         </div>
         <div class="col-3 letter-roots">
-          <a href="/roots/view/?letter=@letters(index).string">
+          <a href="/roots/view/@letter?col=letter&order=DSC&parent=@roots(index).root_name">
             roots
           </a>
         </div>
         <div class="col-3 letter-words">
-          <a href="words/view/?letter=@letters(index).string">
+          <a href="words/view/@letter">
             words
           </a>
         </div>

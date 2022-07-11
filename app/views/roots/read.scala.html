@@ -1,0 +1,69 @@
+@(root: models.Root)(implicit request: RequestHeader)
+@import helper._
+
+@common.layout("Root - " + root.root_name){
+    @common.message(request.flash, "Showing Letter - " + root.root_name)
+    <div id="root">
+        <div class="row root">
+          <div class="col-3">
+            Root
+          </div>
+          <div class="col-9">
+            @root.root_name
+          </div>
+        </div>
+        <div class="row parent">
+          <div class="col-3">
+            Parent
+          </div>
+          <div class="col-9">
+            @root.parent
+          </div>
+        </div>
+        <div class="row action">
+          <div class="col-3">
+            Action
+          </div>
+          <div class="col-9">
+            @root.action
+          </div>
+        </div>
+        <div class="row object">
+          <div class="col-3">
+            Object
+          </div>
+          <div class="col-9">
+            @root.obj
+          </div>
+        </div>
+        <div class="row abstract">
+            <div class="col-3">
+              Abstract
+            </div>
+            <div class="col-9">
+              @root.abstr
+            </div>
+        </div>
+        <div class="row definition">
+            <div class="col-3">
+              Definition
+            </div>
+            <div class="col-9">
+              @root.definition
+            </div>
+        </div>
+        <div class="row children">
+            <div class="row-6">
+                <a href="/roots/view?root=@root.root_name">
+                    Roots
+                </a>
+            </div>
+            <div class="row-6">
+                <a href="/words/view?letter=@root.root_name">
+                    Words
+                </a>
+            </div>
+        </div>
+    </div>
+
+}
