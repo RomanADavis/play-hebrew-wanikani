@@ -1,40 +1,41 @@
 @import helper._
-@(letter: String, roots: Array[Root])(implicit request: RequestHeader)
+@(letter: String, roots: Array[Root], letters: Array[Letter])(implicit request: RequestHeader)
 
 
 @common.layout("Roots - " + letter){
-  @common.message(request.flash, "Showing Letter")
+  @pagination.roots(letters)
+  @common.message(request.flash, "Showing Roots - " + letter)
   <div id="letter">
     <div class="row letter-header">
       <div class="col-3 col-header">
         @if(request.getQueryString("order").getOrElse("ASC") == "ASC"){
-          <a href="/roots/view/@letter?col=letter&order=DSC">
+          <a href="/roots/view/@letter?col=letter&order=DSC" class="text-center">
             Root
           </a>
         }else{
-          <a href="/roots/view/@letter?col=letter&order=ASC">
+          <a href="/roots/view/@letter?col=letter&order=ASC" class="text-center">
             Root
           </a>
         }
       </div>
       <div class="col-3 col-header">
         @if(request.getQueryString("order").getOrElse("ASC") == "ASC"){
-          <a href="/roots/view/@letter?col=parent&order=ASC">
+          <a href="/roots/view/@letter?col=parent&order=ASC" class="text-center">
             Parent
           </a>
         }else{
-          <a href="/roots/view/@letter?col=parent&order=DSC">
+          <a href="/roots/view/@letter?col=parent&order=DSC" class="text-center">
             Parent
           </a>
         }
       </div>
       <div class="col-3 col-header">
         @if(request.getQueryString("order").getOrElse("ASC") == "ASC"){
-            <a href="/roots/view/@letter?col=root count&order=DSC">
+            <a href="/roots/view/@letter?col=root count&order=DSC" class="text-center">
               Child Roots
             </a>
         }else{
-            <a href="/roots/view/@letter?col=root count&order=ASC">
+            <a href="/roots/view/@letter?col=root count&order=ASC" class="text-center">
               Child Roots
             </a>
         }

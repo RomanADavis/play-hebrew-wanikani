@@ -22,7 +22,9 @@ class RootController @Inject()(cc: ControllerComponents) extends AbstractControl
     val order: String = request.getQueryString("order").getOrElse("ASC")
     val roots = models.Root.view(letter, column, order, parent)
 
-    Ok(views.html.roots.view(letter, roots))
+    val letters = models.Letter.all()
+    
+    Ok(views.html.roots.view(letter, roots, letters))
   }
 
   // READ

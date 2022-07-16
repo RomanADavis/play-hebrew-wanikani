@@ -1,0 +1,12 @@
+@import helper._
+@(letters: Array[Letter])(implicit request: RequestHeader)
+
+<div class="d-flex">
+  @for(index <- 0 until letters.size){
+    <div class="flex-fill">
+      <a href="/roots/view/@letters(index).string">
+        @letters(index).string
+      </a>
+    </div>
+  }
+</div>
