@@ -6,18 +6,38 @@
   @common.message(request.flash, "Showing Letter")
   <div id="letter">
     <div class="row letter-header">
-      <div class="col-2 col-header">
+      <div class="col-3 col-header">
         @if(request.getQueryString("order").getOrElse("ASC") == "ASC"){
-          <a href="/roots/view/@letter?col=letter&order=DSC">Root</a>
-        } else{
-          <a href="/roots/view/@letter?col=letter&order=ASC">Root</a>
+          <a href="/roots/view/@letter?col=letter&order=DSC">
+            Root
+          </a>
+        }else{
+          <a href="/roots/view/@letter?col=letter&order=ASC">
+            Root
+          </a>
         }
       </div>
-      <div class="col-2 col-header">
-        Parent
+      <div class="col-3 col-header">
+        @if(request.getQueryString("order").getOrElse("ASC") == "ASC"){
+          <a href="/roots/view/@letter?col=parent&order=ASC">
+            Parent
+          </a>
+        }else{
+          <a href="/roots/view/@letter?col=parent&order=DSC">
+            Parent
+          </a>
+        }
       </div>
       <div class="col-3 col-header">
-        Roots
+        @if(request.getQueryString("order").getOrElse("ASC") == "ASC"){
+            <a href="/roots/view/@letter?col=root count&order=DSC">
+              Child Roots
+            </a>
+        }else{
+            <a href="/roots/view/@letter?col=root count&order=ASC">
+              Child Roots
+            </a>
+        }
       </div>
       <div class="col-3 col-header">
         Words
@@ -25,18 +45,30 @@
     </div>
     @for(index <- 0 until roots.size){
       <div class="row">
-        <div class="col-2 root-name">
+        <div class="col-3 root-name">
           <a href="/roots/read/@roots(index).root_name">
             @roots(index).root_name
           </a>
         </div>
-        <div class="col-2 letter-string">
-          @roots(index).parent
+        <div class="col-3 letter-string">
+          @if(roots(index).parent.length == 1){
+            <a href="/letters/read/@roots(index).parent">
+              @roots(index).parent
+            </a>
+          }else{
+            <a href="/roots/read/@roots(index).parent">
+              @roots(index).parent
+            </a>
+          }
         </div>
         <div class="col-3 letter-roots">
-          <a href="/roots/view/@letter?col=letter&order=DSC&parent=@roots(index).root_name">
-            roots
-          </a>
+          @if(roots(index).root_count == 0){
+            0
+          }else{
+            <a href="/roots/view/@letter?col=letter&order=DSC&parent=@roots(index).root_name">
+              @roots(index).root_count
+            </a>
+          }
         </div>
         <div class="col-3 letter-words">
           <a href="words/view/@letter" class="disabled">

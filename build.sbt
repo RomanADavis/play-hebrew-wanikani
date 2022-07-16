@@ -3,8 +3,8 @@ scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq( 
   guice
-  ,"org.joda" % "joda-convert" % "1.9.2"
-  ,"org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
+  , "org.joda" % "joda-convert" % "1.9.2"
+  , "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
   , "org.apache.spark" %% "spark-core" % "2.2.0"
   , "org.apache.spark" %% "spark-sql" % "2.2.0"
   , "org.apache.spark" %% "spark-mllib" % "2.2.0"

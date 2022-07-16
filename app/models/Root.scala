@@ -30,10 +30,8 @@ object Root {
     dataframe.cache()
     dataframe.createOrReplaceTempView("root")
 
-    // var joined = dataframe.join(child_root_counts, dataframe("root") === child_root_counts("parent"))
-
     // Hack so that methods return User even when not found.
-    val empty: Root = new Root("NULL", "NULL", "NULL", "NULL", "NULL", "NULL")
+    val empty: Root = new Root("NULL", "NULL", "NULL", "NULL", "NULL", "NULL", -1L)
 
     def show() = {
         // SELECT DISTINCT is a hack here: somehow, when I add a row to my table,
@@ -42,10 +40,20 @@ object Root {
         dataframe = session.sql("SELECT DISTINCT * FROM root ORDER BY root")
         dataframe.show()
     }
+    
+    def root_counts(): org.apache.spark.sql.DataFrame = {
+        val counts = dataframe
+                        .groupBy("parent")
+                        .agg(count("*")
+                        .as("root count"))
+        
+        return counts.select(
+                counts("root count"), counts("parent").as("child roots")
+            ) 
+    }
 
-    def child_root_counts(letter: String = "א"): org.apache.spark.sql.DataFrame = {
-        var child_root_counts = dataframe.groupBy("parent").agg(count("*").as("child root count"))
-        return child_root_counts.filter(dataframe("parent").startsWith(letter))
+    def root_counts(letter: String): org.apache.spark.sql.DataFrame = {
+        return root_counts().filter(dataframe("root").startsWith(letter))
     }
 
     def all(column: String = "letter", order: String = "ASC"): Array[Root] = {
@@ -57,17 +65,17 @@ object Root {
         ).collect()
     }
 
-    def view(letter: String = "א", column: String = "root", order: String = "ASC", parent: String = ""): Array[Root] = {
-
-        
+    def view(letter: String = "א", column: String = "root", 
+            order: String = "ASC", parent: String = ""): Array[Root] = {
         val filtered = if(parent == "") dataframe.filter(dataframe("root").startsWith(letter)) else dataframe.filter(dataframe("parent") === parent) 
-        val sorted = if(order == "ASC") filtered.sort(asc(column)) else filtered.sort(desc(column))
+        val child_counts = root_counts()
+        val joined = filtered.alias("parent").join(
+                child_counts, 
+                filtered("root") === child_counts("child roots"),
+                "left_outer"
+            ).na.fill(0)
+        val sorted = if(order == "ASC") joined.sort(asc(column)) else joined.sort(desc(column))
         sorted.show()
-        
-        // child_root_counts.show()
-
-        
-
         // joined.show()
         return sorted.rdd.map(row =>
             new Root(row)
@@ -108,9 +116,15 @@ object Root {
         // For some reason, using the above spark sql is confusing to spark;
         // good riddance; I'd rather user programatic syntax anyway.
         val dataread = dataframe.filter(dataframe("root") === root_name)
+        val child_counts = root_counts()
+        val joined = dataread.alias("parent").join(
+                child_counts, 
+                dataread("root") === child_counts("child roots"),
+                "left_outer"
+            ).na.fill(0)
 
-        if(dataread.count() == 1){
-            return new Root(dataread.first())
+        if(joined.count() == 1){
+            return new Root(joined.first())
         }else{
             return Root.empty
         }
@@ -131,7 +145,8 @@ object Root {
 
 }
 
-case class Root(root_name: String, parent: String, action: String, obj: String, abstr: String, definition: String){
+case class Root(root_name: String, parent: String, action: String, obj: String, 
+    abstr: String, definition: String, root_count: Long = 0){
     // Hmmm. This assums that we're only putting in one user at a time.
     // This may go awry.
     def this(row: org.apache.spark.sql.Row) = {
@@ -141,7 +156,8 @@ case class Root(root_name: String, parent: String, action: String, obj: String, 
             row.getAs[String]("action"),
             row.getAs[String]("object"),
             row.getAs[String]("abstract"),
-            row.getAs[String]("definition")
+            row.getAs[String]("definition"),
+            row.getAs[Long]("root count")
             // row.getAs[Long]("child root count")
         )
     }

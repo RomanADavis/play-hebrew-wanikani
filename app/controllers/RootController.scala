@@ -33,7 +33,7 @@ class RootController @Inject()(cc: ControllerComponents) extends AbstractControl
   }
 
   def root_counts(letter: String = "א") = Action { implicit request =>
-    val root_counts = models.Root.child_root_counts(letter)
+    val root_counts = models.Root.root_counts(letter)
     root_counts.show()
     Ok(views.html.roots.root_counts(root_counts))
   }
