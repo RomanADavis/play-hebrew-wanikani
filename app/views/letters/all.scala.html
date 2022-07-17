@@ -6,23 +6,23 @@
   @common.message(request.flash, "Showing Letter")
   <div id="letter">
     <div class="row letter-header">
-      <div class="col-2 col-header">
+      <div class="col-2 col-header text-center">
         Name
       </div>
-      <div class="col-2 col-header">
+      <div class="col-2 col-header text-center">
         @if(request.getQueryString("order").getOrElse("ASC") == "ASC"){
           <a href="/letters/all?col=letter&order=DSC">Letter</a>
         } else{
           <a href="/letters/all?col=letter&order=ASC">Letter</a>
         }
       </div>
-      <div class="col-2 col-header">
+      <div class="col-2 col-header text-center">
         Glyph
       </div>
-      <div class="col-3 col-header">
+      <div class="col-3 col-header text-center">
         Roots
       </div>
-      <div class="col-3 col-header">
+      <div class="col-3 col-header text-center">
         Words
       </div>
     </div>
@@ -33,20 +33,20 @@
             @letters(index).name
           </a>
         </div>
-        <div class="col-2 letter-string">
+        <div class="col-2 letter-string text-center">
           @letters(index).string
         </div>
-        <div class="col-2 letter-glyph">
+        <div class="col-2 letter-glyph text-center">
           @letters(index).glyph
         </div>
-        <div class="col-3 letter-roots">
-          <a href="/roots/view/@letters(index).string">
-            Roots
+        <div class="col-3 letter-roots text-center">
+          <a href="/roots/view/@letters(index).string?col=letter&order=DSC&parent=@letters(index).string">
+            @letters(index).root_count
           </a>
         </div>
-        <div class="col-3 letter-words">
+        <div class="col-3 letter-words text-center">
           <a href="/roots/root_counts/@letters(index).string" class="disabled">
-            Root Counts
+            Word Counts
           </a>
         </div>
       </div>
