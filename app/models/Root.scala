@@ -10,7 +10,7 @@ import DB.session
 
 object Root {
     val session = DB.session
-    val json_path = "hdfs://localhost:9000/user/Roman/hebrew/roots"
+    val json_path = "./json/just_roots.json"
     
     val schema = StructType(
         Array(

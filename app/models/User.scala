@@ -8,8 +8,8 @@ import DB.session
 
 object User {
     val session = DB.session
-    val json_path = "hdfs://localhost:9000/user/Roman/hebrew/users"
-    // val json_path = "users.json"
+    val json_path = "./json/users"
+
     val schema = StructType(
         Array(
             StructField("id", LongType, nullable=false),

@@ -12,7 +12,7 @@ import DB.session
 // some reasonable rules for Object inhertance; should look into this later.
 object Letter {
     val session = DB.session
-    val json_path = "hdfs://localhost:9000/user/Roman/hebrew/letters"
+    val json_path = "./json/mnemonic_hints.json"
 
     val schema = StructType(
         Array(

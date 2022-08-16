@@ -1,0 +1,188 @@
+[
+    {
+        "letter": "א",
+        "glyph": "𓄀",
+        "name": "aleph",
+        "meaning": "ox, strength, fire, father, God, 1",
+        "rationale": "the original pictograph is of an ox, abstracted to it's strength; אב is father, abstracted to God."
+    },
+    
+    {
+        "letter": "ב",
+        "glyph": "𓉔",
+        "name": "beyt",
+        "meaning": "house, tent, in, enclose, earth, family",
+        "rationale": "a picture of a tent, abstracted to inside, house, in, enclose, and family; houses are made of earth, "
+    },
+
+    {
+        "letter": "ג",
+        "glyph": "𓃀",
+        "name": "gimel",
+        "meaning": "Camel, foot, (movement), roof, high",
+        "rationale": "Name of the character is \"Gimel\" meaning camel, pictograph of a foot, abstracted to movement, גג means 'roof', abstracted to top and high places" 
+    },
+
+    {
+        "letter": "ד",
+        "glyph": "𓉿",
+        "name": "dalet",
+        "meaning": "door, swinging back and forth, dangling, (as doors do), abstracted to 'option'",
+        "rationale": "pictograph of a door"
+    },
+
+    {
+       "letter": "ה",
+       "glyph": "𓁏",
+       "name": "hey",
+       "meaning": "show, sigh, (surrender?)",
+       "rationale": "pictograph of someone with their hands up"
+    },
+    
+    {
+        "letter": "ו",
+        "glyph": "𓌉",
+        "name": "vav",
+        "meaning": "Nail, abstraced to nail down (as in bring together and de-abstract), abstracted to attach, hook, and, tent peg",
+        "rationale": "Pictograph of a tent peg"
+    },
+
+    {
+        "letter": "ז",
+        "glyph": "𓌳",
+        "name": "zayin",
+        "meaning": "Weapon, plow, tool, sharvest, plant, scythe?, food?",
+        "rationale": "Pictograph of an ancient, bladed farming tool"
+    },
+
+    {
+        "letter": "ח",
+        "glyph": "𓊐",
+        "name": "hhet",
+        "meaning": "Fence (separation or containment), wall",
+        "rationale": "Pictogram of a tent wall"
+    },
+
+    {
+        "letter": "ט",
+        "glyph": "𐤈",
+        "name": "tet",
+        "meaning": "basket or jar, made of clay, abstracted to containment, containing fish / serpent, abstracted to twisting",
+        "rationale": "pictograph of jar"
+    },
+
+    {
+        "letter": "י",
+        "glyph": "𓂝",
+        "name": "yud",
+        "meaning": "Hand, deed, he, work, throw, verbifier, (thought or action)",
+        "rationale": "pictograph of a closed hand"
+    },
+
+    {
+        "letter": "כ",
+        "glyph": "𓂧",
+        "name": "kaph",
+        "meaning": "palm of hand, open hand, as, your (holding something, opening the hand)",
+        "rationale": "pictograph of palm with base of the fingers"
+    },
+
+    {
+        "letter": "ל",
+        "glyph": "𓋿",
+        "name": "lamed",
+        "meaning": "Staff, shepherd, by abstraction, guide; for, to, by (teaching or learning)",
+        "rationale": "pictograph of a shepherd's staff"
+    },
+
+    {
+        "letter": "מ",
+        "glyph": "𓈖",
+        "name": "mem",
+        "meaning": "Water, womb, from, among, part, their, comparison, noun prefix (chaos, effect of water) 'a lot'",
+        "rationale": "pictograph of waves"
+    },
+
+    {
+        "letter": "נ",
+        "glyph": "𓆓",
+        "name": "nun",
+        "meaning": "fish, seed, life, be, we, their, noun prefix (something being or existing), heir, continue",
+        "rationale": "pictograph of a seed, but also looks suspiciously like a fish or a sperm",
+        "sophit": "ן"
+    },
+
+    {
+        "letter": "ס",
+        "glyph": "𓊽",
+        "name": "samehh",
+        "meaning": "round, support, thorn, shield, enclose",
+        "rationale": "the original pictograph is ambiguous, but many people believe it is a thorn; thornbushes could be used to enclose pastures and act as a shield."
+    },
+
+    {
+        "letter": "ע",
+        "glyph": "𓁹",
+        "name": "ayin",
+        "meaning": "Eye, (see or experience)",
+        "rationale": "pictograph of an eye"
+    },
+    
+    {
+        "letter": "פ",
+        "glyph": "𓂋",
+        "name": "pey",
+        "meaning": "mouth, word, eat, speak, blow, edge, lips",
+        "rationale": "pictogram of a mouth",
+        "sophit": "ף"
+    },
+
+    {
+        "letter": "צ",
+        "glyph": "𓇑",
+        "name": "tsade",
+        "meaning": "Need, desire, side, hunt, chase, ambush",
+        "rationale": "One person said it was a pictogram of someone lying on their side, as if in amush, from which we get chase and hunt, abstracted to need / desire; I never though this made much sense. Wikipedia says it comes from the name of a kind of plant: one can easily imagine it as a tall grass that predators hide in.",
+        "sophit": "ץ"
+    },
+
+    {
+        "letter": "ק",
+        "glyph": "𓎗",
+        "name": "quph",
+        "meaning": "Sun on the horizon, eye of a needle, back of the head (piercing, being on a horizon / field, thought or movement of the head)",
+        "rationale": "pictogram of a setting sun"
+    },
+
+    {
+        "letter": "ר",
+        "glyph": "𓁶",
+        "name": "resh",
+        "meaning": "Head, exalted one, top (being first or on top, thought, involving a person)",
+        "rationale": "pictograph of a head"
+    },
+   
+    {
+        "letter": "ש",
+        "glyph": "𓇴",
+        "name": "shin",
+        "meaning": "Teeth, the sun or it's rays, that, which, who (consumption, clinching of teeth), bite, cut, pressure",
+        "rationale": "pictogram of a pair of teeth"
+    },
+
+    {
+        "letter": "ת",
+        "glyph": "X",
+        "name": "tav",
+        "meaning": "Sign, mark, cross, you, she, noun prefix, (being last, affliction or service)",
+        "rationale": "a cross substitutes for an x on a contract"
+    },
+
+    {
+        "letter": "𓎛",
+        "glyph": "𓎛",
+        "name": "ghayin",
+        "meaning": "twisted, and by adbstraction, evil or dark",
+        "rationale": "reconstructed, we think the original sign might've been a goat horn, probably euphahmized out of existence."
+    }
+]
