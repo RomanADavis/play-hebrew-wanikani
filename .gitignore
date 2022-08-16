@@ -8,5 +8,5 @@ target
 /.project
 /.settings
 /RUNNING_PID
-
+/.metals
 /.vscode
