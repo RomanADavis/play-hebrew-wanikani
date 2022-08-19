@@ -4,14 +4,17 @@ import org.apache.spark.sql.Row
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.types.{StringType, StructField, StructType, LongType}
 import org.apache.spark.sql.functions._
+import org.apache.spark.SparkFiles
 
 import org.apache.spark.sql.functions.{desc, asc}
 import DB.session
 
 object Root {
     val session = DB.session
-    val json_path = "./json/just_roots.json"
+    val urlfile = "https://dabbr.s3.amazonaws.com/roots/just_roots.json"
     
+    DB.session.sparkContext.addFile(urlfile)
+
     val schema = StructType(
         Array(
             StructField("root", StringType, nullable=false),
@@ -26,7 +29,9 @@ object Root {
     var dataframe = session.read
         .option("multiline", true)
         .schema(schema)
-        .json(json_path)
+        .format("json")
+        .load("file://" + SparkFiles.get("just_roots.json"))
+        
     dataframe.cache()
     dataframe.createOrReplaceTempView("root")
 
@@ -82,23 +87,23 @@ object Root {
         ).collect()
     }
 
-    def save() = {
-        dataframe.createOrReplaceTempView("root")
-        dataframe.write.mode("overwrite").json(json_path)
-        dataframe.cache()
-    }
+    // def save() = {
+    //     dataframe.createOrReplaceTempView("root")
+    //     dataframe.write.mode("overwrite").json(json_path)
+    //     dataframe.cache()
+    // }
 
     // "object" is a keyword; "abstract" is a keyword
-    def create(root_name: String, parent: String, action: String, obj: String, abstr: String, definition: String): Root = {
-        all()
-        val root: Root = new Root(root_name, parent, action, obj, abstr, definition)
+    // def create(root_name: String, parent: String, action: String, obj: String, abstr: String, definition: String): Root = {
+    //     all()
+    //     val root: Root = new Root(root_name, parent, action, obj, abstr, definition)
 
-        root.dataframe().show()
-        dataframe = dataframe.union(root.dataframe())
+    //     root.dataframe().show()
+    //     dataframe = dataframe.union(root.dataframe())
         
-        save()
-        return root
-    }
+    //     save()
+    //     return root
+    // }
 
     // def read(id: Int): User = {
     //     // TODO: Get this to return a user (and update the corresponding views)

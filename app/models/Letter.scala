@@ -4,6 +4,7 @@ import org.apache.spark.sql.Row
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.types.{StringType, StructField, StructType, LongType}
 import org.apache.spark.sql.functions._
+import org.apache.spark.SparkFiles
 
 import org.apache.spark.sql.functions.{desc, asc}
 import DB.session
@@ -12,8 +13,11 @@ import DB.session
 // some reasonable rules for Object inhertance; should look into this later.
 object Letter {
     val session = DB.session
-    val json_path = "./json/mnemonic_hints.json"
 
+    val urlfile = "https://dabbr.s3.amazonaws.com/letters/mnemonic_hints.json"
+    
+    DB.session.sparkContext.addFile(urlfile)
+    
     val schema = StructType(
         Array(
             StructField("letter", StringType, nullable=false),
@@ -27,7 +31,8 @@ object Letter {
     var dataframe = session.read
         .option("multiline", true)
         .schema(schema)
-        .json(json_path)
+        .format("json")
+        .load("file://" + SparkFiles.get("mnemonic_hints.json"))
 
     dataframe.cache()
     dataframe.createOrReplaceTempView("letters")
@@ -81,22 +86,22 @@ object Letter {
         }
     }
 
-    def save() = {
-        dataframe.write.mode("overwrite").json(json_path)
-        dataframe.cache()
-    }
+    // def save() = {
+    //     dataframe.write.mode("overwrite").json(json_path)
+    //     dataframe.cache()
+    // }
 
-    def create(string: String, glyph: String, name: String, meaning: String, rationale: String): Letter = {
-        all()
-        val letter: Letter = new Letter(string, glyph, name, meaning, rationale, 0)
+    // def create(string: String, glyph: String, name: String, meaning: String, rationale: String): Letter = {
+    //     all()
+    //     val letter: Letter = new Letter(string, glyph, name, meaning, rationale, 0)
 
-        letter.dataframe().show()
-        dataframe = dataframe.union(letter.dataframe())
-        dataframe.createOrReplaceTempView("letter")
+    //     letter.dataframe().show()
+    //     dataframe = dataframe.union(letter.dataframe())
+    //     dataframe.createOrReplaceTempView("letter")
         
-        save()
-        return letter
-    }
+    //     save()
+    //     return letter
+    // }
 }
 
 case class Letter(string: String, glyph: String, name: String, meaning: String, 

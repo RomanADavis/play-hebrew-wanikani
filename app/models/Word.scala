@@ -12,15 +12,18 @@
 //     val session = DB.session
 //     val json_path = "/json/just_words.json"
     
-//     val json_path = 
+//     val json_path = "https://dabbr.s3.amazonaws.com/letters/mnemonic_hints.json"
 //     val schema = StructType(
 //         Array(
-//             StructField("root", StringType, nullable=false),
+//             StructField("word", StringType, nullable=false),
 //             StructField("parent", StringType, nullable=false),
-//             StructField("action", StringType, nullable=true),
-//             StructField("object", StringType, nullable=true),
-//             StructField("abstract", StringType, nullable=true),
-//             StructField("definition", StringType, nullable=true)
+//             StructField("translation", StringType, nullable=true),
+//             StructField("definintion", StringType, nullable=true),
+//             StructField("kjv translation", StringType, nullable=true),
+//             StructField("strong's hebrew #", StringType, nullable=true),
+//             StructField("armaic spelling", StringType, nullable=true),
+//             StructField("strong's aramaic #", StringType, nullable=true),
+//             StructField("mnemonic", StringType, nullable=)
 //         )
 //     )
 
@@ -29,46 +32,48 @@
 //         .schema(schema)
 //         .json(json_path)
 //     dataframe.cache()
-//     dataframe.createOrReplaceTempView("root")
+//     dataframe.createOrReplaceTempView("word")
 
 //     // Hack so that methods return User even when not found.
-//     val empty: Root = new Root("NULL", "NULL", "NULL", "NULL", "NULL", "NULL", -1L)
+//     val empty: Root = new Word("NULL", "NULL", "NULL", "NULL", "NULL", "NULL", "NULL",  "NULL", "NULL")
 
 //     def show() = {
 //         // SELECT DISTINCT is a hack here: somehow, when I add a row to my table,
 //         // it gets added twice to the dataframe (but only once as a JSON);
 //         // should probably hunt down the bug later.
-//         dataframe = session.sql("SELECT DISTINCT * FROM root ORDER BY root")
+//         dataframe = session.sql("SELECT DISTINCT * FROM word ORDER BY word")
 //         dataframe.show()
 //     }
     
-//     def root_counts(): org.apache.spark.sql.DataFrame = {
+//     def word_counts(): org.apache.spark.sql.DataFrame = {
 //         val counts = dataframe
 //                         .groupBy("parent")
 //                         .agg(count("*")
-//                         .as("root count"))
+//                         .as("word count"))
         
 //         return counts.select(
-//                 counts("root count"), counts("parent").as("child roots")
+//                 counts("word count"), counts("parent").as("word")
 //             ) 
 //     }
 
-//     def root_counts(letter: String): org.apache.spark.sql.DataFrame = {
-//         return root_counts().filter(dataframe("root").startsWith(letter))
+//     // Not sure if we really want to check for words that start withh a letter
+//     // or for words that have a root.
+//     def word_counts(letter: String): org.apache.spark.sql.DataFrame = {
+//         return root_counts().filter(dataframe("word").startsWith(letter))
 //     }
 
-//     def all(column: String = "letter", order: String = "ASC"): Array[Root] = {
+//     def all(column: String = "letter", order: String = "ASC"): Array[Word] = {
 //         val sorted = if(order == "ASC") dataframe.sort(asc(column)) else dataframe.sort(desc(column))
 //         sorted.show()
 
 //         return sorted.rdd.map(row =>
-//             new Root(row)
+//             new Word(row)
 //         ).collect()
 //     }
 
 //     def view(letter: String = "א", column: String = "root", 
 //             order: String = "ASC", parent: String = ""): Array[Root] = {
-//         val filtered = if(parent == "") dataframe.filter(dataframe("root").startsWith(letter)) else dataframe.filter(dataframe("parent") === parent) 
+//         val filtered = if(parent == "") dataframe.filter(dataframe("word").startsWith(letter)) else dataframe.filter(dataframe("parent") === parent) 
 //         val child_counts = root_counts()
 //         val joined = filtered.alias("parent").join(
 //                 child_counts, 
